@@ -154,4 +154,7 @@ let FoxRandomString = new Object({
     return this.testOutput(this.type,output);
   }
   
-}) 
+});
+module.exports = {
+  FoxRandomString: FoxRandomString
+}
