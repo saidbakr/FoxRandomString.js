@@ -146,7 +146,7 @@ export const FoxRandomString = new Object({
     let output = '';    
     this.type = this.setType(type);
     this.length = this.setLength(length);
-    selection = this.setSelection(this.type)
+    const selection = this.setSelection(this.type)
     
     for (i = 0; i < this.length; i++){
       output += selection[this.genRand(selection.length)];
