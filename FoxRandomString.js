@@ -113,15 +113,15 @@ export const FoxRandomString = new Object({
     const output = [];
     let slotsStr = '';
     if (type == 'mix' || type == 'urs'){
-      for (i = 0; i < 4; i++){
-        randVal = this.atomicFor(slotsStr,length);        
+      for (let i = 0; i < 4; i++){
+        const randVal = this.atomicFor(slotsStr,length);        
         output.push(randVal);
         slotsStr += randVal;
       }
     }
     else if (type == 'uln'){
-      for (i = 0; i < 3; i++){
-        randVal = this.atomicFor(slotsStr,length);  
+      for (let i = 0; i < 3; i++){
+        const randVal = this.atomicFor(slotsStr,length);  
         output.push(this.genRand(length));
         slotsStr += randVal;
       }
@@ -148,7 +148,7 @@ export const FoxRandomString = new Object({
     this.length = this.setLength(length);
     const selection = this.setSelection(this.type)
     
-    for (i = 0; i < this.length; i++){
+    for (let i = 0; i < this.length; i++){
       output += selection[this.genRand(selection.length)];
     }
     return this.testOutput(this.type,output);
