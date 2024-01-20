@@ -11,7 +11,7 @@ let FoxRandomString = new Object({
   length: 4,
   
   setLength: function(i){
-    val = parseInt(i);
+    const val = parseInt(i);
     if (val < 4 || isNaN(val)){
       return 4;
     }
@@ -71,7 +71,7 @@ let FoxRandomString = new Object({
     }    
   },
   tested: function(pat,input){
-    re = new RegExp(pat);    
+    const re = new RegExp(pat);    
     if(!input.match(re)){      
       return this.filledSlots(input,this.type);       
      
@@ -82,7 +82,7 @@ let FoxRandomString = new Object({
   },
   filledSlots: function(input, type){
     if (type == 'mix' || type == 'uln' || type == 'urs'){
-      slots = this.getSlots(input.length, type);
+      const slots = this.getSlots(input.length, type);
       return this.fillSlots(input,slots,type)
     }
   },
@@ -110,8 +110,8 @@ let FoxRandomString = new Object({
     return input;
   },
   getSlots: function(length,type){
-    output = [];
-    slotsStr = '';
+    const output = [];
+    let slotsStr = '';
     if (type == 'mix' || type == 'urs'){
       for (i = 0; i < 4; i++){
         randVal = this.atomicFor(slotsStr,length);        
@@ -130,7 +130,7 @@ let FoxRandomString = new Object({
     
   },
   atomicFor: function(str,length){
-    randVal = this.genRand(length);
+    let randVal = this.genRand(length);
     while (!this.isAtomicIn(randVal,str)){
            randVal = this.genRand(length);
            }
@@ -143,7 +143,7 @@ let FoxRandomString = new Object({
     return true;
   },
   generate: function(length,type){
-    output = '';    
+    let output = '';    
     this.type = this.setType(type);
     this.length = this.setLength(length);
     selection = this.setSelection(this.type)
@@ -155,6 +155,3 @@ let FoxRandomString = new Object({
   }
   
 });
-module.exports = {
-  FoxRandomString: FoxRandomString
-}
