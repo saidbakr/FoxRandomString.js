@@ -2,7 +2,15 @@
   "name": "foxrandomstring",
   "version": "1.0.1",
   "description": "Random string Javascript object with specified types of the output",
-  "main": "FoxRandomString.js",
+  "main": "./FoxRandomString.js",
+  "module": "./FoxRandomString.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./FoxRandomString.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
