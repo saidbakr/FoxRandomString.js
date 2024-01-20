@@ -1,4 +1,4 @@
-let FoxRandomString = new Object({
+export const FoxRandomString = new Object({
   special_chars:'+-@!%*}[/)$#(>=~^',
   url_safe:'-_.~.~_-',
   numbers: '0123456789234567',
@@ -155,6 +155,3 @@ let FoxRandomString = new Object({
   }
   
 });
-module.exports = {
-  FoxRandomString: FoxRandomString
-}
