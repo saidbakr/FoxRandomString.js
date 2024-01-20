@@ -155,3 +155,6 @@ let FoxRandomString = new Object({
   }
   
 });
+module.exports = {
+  FoxRandomString: FoxRandomString
+}
