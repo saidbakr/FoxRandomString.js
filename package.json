@@ -1,6 +1,6 @@
 {
   "name": "foxrandomstring",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Random string Javascript object with specified types of the output",
   "main": "./FoxRandomString.js",
   "module": "./FoxRandomString.js",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/saidbakr/FoxRandomString.js.git"
+    "url": "git+https://github.com/saidbakr/FoxRandomString.js.git"
   },
   "keywords": [
     "random",
@@ -31,6 +31,5 @@
   "homepage": "https://github.com/saidbakr/FoxRandomString.js#readme",
   "publishConfig": {
   "registry": "https://npm.pkg.github.com"
-  },
-
+  }
 }
