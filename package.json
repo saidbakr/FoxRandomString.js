@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/saidbakr/FoxRandomString.js.git"
+    "url": "https://github.com/saidbakr/FoxRandomString.js.git"
   },
   "keywords": [
     "random",
@@ -28,5 +28,9 @@
   "bugs": {
     "url": "https://github.com/saidbakr/FoxRandomString.js/issues"
   },
-  "homepage": "https://github.com/saidbakr/FoxRandomString.js#readme"
+  "homepage": "https://github.com/saidbakr/FoxRandomString.js#readme",
+  "publishConfig": {
+  "registry": "https://npm.pkg.github.com"
+  },
+
 }
