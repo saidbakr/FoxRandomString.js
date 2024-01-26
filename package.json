@@ -28,8 +28,6 @@
   "bugs": {
     "url": "https://github.com/saidbakr/FoxRandomString.js/issues"
   },
-  "homepage": "https://github.com/saidbakr/FoxRandomString.js#readme",
-  "publishConfig": {
-  "registry": "https://npm.pkg.github.com"
-  }
+  "homepage": "https://github.com/saidbakr/FoxRandomString.js#readme"
+  
 }

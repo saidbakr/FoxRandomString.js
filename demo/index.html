@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fox Random String Generator - JavaScript</title>
+    <meta charset="UTF-8" />
+    <meta property="og:title" content="Fox Random String - JavaScript Object" />
+    <meta property="og:type" content="code" />
+    <meta
+      property="og:description"
+      content="Live demo for using FoxRandomString object to generate random strings according to types."
+    />
+    <meta property="og:image" content="https://twitter.com/saidbakr/photo" />
+    <meta property="og:url" content="https://55h27v.csb.app/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link href="style.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <h1>Random Strings</h1>
+    <div id="app"></div>
+    <hr />
+    <button id="genBtn">Regenerate...</button>
+    <fieldset>
+      <legend>Length</legend>
+      <input type="number" id="len" min="4" value="16" />
+    </fieldset>
+    <fieldset>
+      <legend>Type</legend>
+      <select id="type">
+        <option value="int">Numbers</option>
+        <option value="uln">Upper,Lower&Number</option>
+        <option value="lwr">Lower</option>
+        <option value="upr">Upper</option>
+        <option value="hex">Hexadecimal</option>
+        <option value="urs">URL Safe</option>
+        <option value="mix" selected>
+          Mix (Alphanumerical with special characters)
+        </option>
+      </select>
+    </fieldset>
+    <fieldset>
+      <legend><i>Define custom special characters?</i></legend>
+      <input type="text" disabled id="spChars" value="¢^*㢚©$)س¼₱฿فÑö®" />
+      <p></p>
+      <label for="yes" style="cursor: pointer">
+        <span> No </span>
+        <input
+          type="checkbox"
+          id="yes"
+          value="yes"
+          style="display: inline; width: 1.5em; vertical-align: middle"
+        />
+      </label>
+      <p></p>
+    </fieldset>
+    <hr />
+    <p class="hint">
+      Input fields and button styles are obtined from
+      <a href="https://copy-paste-css.com/" target="_blank">Copy & Paste CSS</a>
+    </p>
+    <script src="FoxRandomString.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
+ 
