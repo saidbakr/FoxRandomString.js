@@ -151,7 +151,7 @@
     }
     return true;
   },
-  generate: function(length,type){
+  generate: function(length,type){    
     if (this.type == 'non') return this.generateCustom(type);
     let output = '';
     if (type[0] == '['){
@@ -178,6 +178,7 @@
     //let o = cusRegex.match(/\[(.*)\](\d{1,2})\{(.*)\}\((\d{1,2})\)/);
    //let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g)];
     let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>([\w\!]*)?\}\((\d{1,2})\)/g)];
+    if (o.length < 1) return "✘: Unrecognized Pattern";
    console.log(o, '====')
    /* let regex = new RegExp(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g);
     let match = regex.exec(cusRegex)

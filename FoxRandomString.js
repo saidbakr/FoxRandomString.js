@@ -170,6 +170,7 @@ export const FoxRandomString = new Object({
   parseRegex: function(cusRegex){
     let output = '';    
     let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>([\w\!]*)?\}\((\d{1,2})\)/g)];   
+    if (o.length < 1) return "✘: Unrecognized Pattern";// there is no valid portion Fox Pattern
     for (let j=0; j < o.length; j++){
       let toCreate = o[j][1]; // the type to be created
       this.type= toCreate;      
