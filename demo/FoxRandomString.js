@@ -7,7 +7,7 @@
   hex: '0A16B278C3D4E5F9',
   mixPat: /^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[_$@.\+\W])[a-zA-Z0-9\W]{1,}$/,
   ulnPat: /^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])[a-zA-Z0-9]{1,}$/,
-  type: 'mix',// mix, int, lwr, upr, uln, hex
+  type: 'mix',// mix, num, lwr, upr, uln, hex
   length: 4,
   
   setLength: function(i){
@@ -19,27 +19,35 @@
       return val;      
     }
   },
-  setType: function(t){
-    switch(t){
-      case 'int':
+  setType: function(t){    
+    switch(true){
+      case (t[0] == '['):        
+        return 'cus';
+      case /^int\(\d{1,},\d{1,}\)$/.test(t):          
         return 'int';
-      case 'lwr':
+      case t == 'num':
+        return 'num';
+      case t == 'lwr':
         return 'lwr';
-      case 'upr':
+      case t == 'upr':
         return 'upr';
-      case 'uln':
+      case t == 'uln':
         return 'uln';
-      case 'hex':
+      case t == 'hex':
         return 'hex';
-      case 'urs':
+      case t == 'urs':
         return 'urs';
+      case t == ' ':
+        return 'non';
       default:
         return 'mix';
     }    
   },
   setSelection: function(t){
     switch(t){
-      case 'int':
+      case 'non':
+        return ' ';
+      case 'num':
         return this.numbers;
       case 'lwr':
         return this.lowercase;
@@ -59,7 +67,8 @@
     return Math.floor(Math.random() * Math.floor(x));
   },
   testOutput: function(type,output){
-    switch (type){
+    console.log('70')
+    switch (type){      
       case 'mix':
         return this.tested(this.mixPat,output);
       case 'uln':
@@ -143,8 +152,15 @@
     return true;
   },
   generate: function(length,type){
-    let output = '';    
+    if (this.type == 'non') return this.generateCustom(type);
+    let output = '';
+    if (type[0] == '['){
+      return this.generateCustom(type)
+    }
     this.type = this.setType(type);
+    if (this.type == 'int'){
+      return this.parseInteger(type);
+    }
     this.length = this.setLength(length);
     const selection = this.setSelection(this.type)
     
@@ -152,6 +168,72 @@
       output += selection[this.genRand(selection.length)];
     }
     return this.testOutput(this.type,output);
+  },
+  generateCustom: function(cusRegex){
+    return this.parseRegex(cusRegex);
+    //console.log(cusRegex)
+  },
+  parseRegex: function(cusRegex){
+    let output = '';
+    //let o = cusRegex.match(/\[(.*)\](\d{1,2})\{(.*)\}\((\d{1,2})\)/);
+   //let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g)];
+    let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>([\w\!]*)?\}\((\d{1,2})\)/g)];
+   console.log(o, '====')
+   /* let regex = new RegExp(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g);
+    let match = regex.exec(cusRegex)
+    console.log(match)
+    while ((match = regex.exec(cusRegex,'g')) !== null) {
+    console.log(match[1], match[2], match[3], match[4]);
+  }*/
+    //console.log(o.length,o[0][1],'<<<<-')
+    for (let j=0; j < o.length; j++){
+      let toCreate = o[j][1]; // the type to be created
+      this.type= toCreate;
+      console.log(toCreate,'****',o[j]);
+      let ofLength = Number(o[j][2]); // the length of portion      
+      let formatFlags = (o[j][4] != undefined)? o[j][4]:'';
+      console.log(formatFlags,o[j][4],o[j], '195')
+      let toSuffix = this.formatSuffix(o[j][3],formatFlags); // the suffix of the portion      
+      let toRepeat = Number(o[j][5]); // times to repeat the portion
+      let delivaryLength = (ofLength < 4)? 4 : ofLength;
+      console.log(this.type, '///')
+      for (let i = 0; i < toRepeat; i++){
+        let portion = String(this.generate(delivaryLength,toCreate));
+        if (formatFlags.indexOf('L') > -1) portion = portion.toLowerCase();
+        if (formatFlags.indexOf('U') > -1) portion = portion.toUpperCase();
+        output += ((ofLength != delivaryLength)? portion.substring(0,ofLength):portion)+((toSuffix[1]&&(i == toRepeat-1))?'':toSuffix[0]);      
+      }      
+    }
+    
+    console.log(output)
+    return output;
+  },
+  formatSuffix: function(str, flags){
+    if (flags.indexOf('!') > -1){
+      return [str,true] // Don't place the suffix in the last portion'
+    }
+    else{
+      return [str,false] // Place the suffix at the last portion too
+    }
+  },
+  parseInteger: function(intStr){
+    let extract = intStr.match(/^int\((\d{1,}),(\d{1,})\)$/);
+    let min;
+    let max;
+    console.log(extract)
+    if (Number(extract[1]) < Number(extract[2]) ){
+       min = extract[1];
+       max = extract[2];
+    }
+    else{
+       min = extract[2];
+       max = extract[1];
+    }
+    return this.randomInRange(min,max);
+  },
+  randomInRange: function(min,max){
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
+  
   
 });
