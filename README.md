@@ -56,3 +56,5 @@ The next portion `[hex]4{<->L}(3)` almost the same but here we said repeat the p
   \[**Type between square brackets**\]**Integer**{\<**Separator**\>Flags}\(**Number of repeatation**\)
 
 ### Demo of the old version [jsbin demo](https://jsbin.com/baxubaf/1/edit?html,js,output)
+
+### [Version 2.x.x demo](https://55h27v-1234.csb.app/)
