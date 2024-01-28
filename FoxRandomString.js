@@ -1,5 +1,5 @@
 export const FoxRandomString = new Object({
-  const FoxRandomString = new Object({
+ 
   special_chars:'+-@!%*}[/)$#(>=~^',
   url_safe:'-_.~.~_-',
   numbers: '0123456789234567',
