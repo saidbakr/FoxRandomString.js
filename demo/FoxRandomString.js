@@ -1,7 +1,7 @@
   const FoxRandomString = new Object({
-  special_chars:'+-@!%*}[/)$#(>=~^',
+  special_chars:'+-@!%*}[/)$#(>=~^:?;',
   url_safe:'-_.~.~_-',
-  numbers: '0123456789234567',
+  numbers: '01234567890123456789',
   lowercase: 'abcdefghijklmnopqurstwvxyz',
   uppercase: 'ABCDEFGHIJKLMNOPQURSTWVXYZ',
   hex: '0A16B278C3D4E5F9',
@@ -152,7 +152,7 @@
     return true;
   },
   generate: function(length,type){    
-    if (this.type == 'non') return this.generateCustom(type);
+    if (this.type == 'non'){ console.log(type, this.type,'155*'); return this.generateCustom(type);}
     let output = '';
     if (type[0] == '['){
       return this.generateCustom(type)
@@ -170,15 +170,16 @@
     return this.testOutput(this.type,output);
   },
   generateCustom: function(cusRegex){
+    console.log(cusRegex,'174*')
     return this.parseRegex(cusRegex);
-    //console.log(cusRegex)
+    
   },
   parseRegex: function(cusRegex){
     let output = '';
     //let o = cusRegex.match(/\[(.*)\](\d{1,2})\{(.*)\}\((\d{1,2})\)/);
    //let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g)];
     let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>([\w\!]*)?\}\((\d{1,2})\)/g)];
-    if (o.length < 1) return "✘: Unrecognized Pattern";
+    if (o.length < 1 && this.type != 'non') return "✘: Unrecognized Pattern";
    console.log(o, '====')
    /* let regex = new RegExp(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g);
     let match = regex.exec(cusRegex)

@@ -1,8 +1,8 @@
 export const FoxRandomString = new Object({
  
-  special_chars:'+-@!%*}[/)$#(>=~^',
+  special_chars:'+-@!%*}[/)$#(>=~^:?;',
   url_safe:'-_.~.~_-',
-  numbers: '0123456789234567',
+  numbers: '01234567890123456789',
   lowercase: 'abcdefghijklmnopqurstwvxyz',
   uppercase: 'ABCDEFGHIJKLMNOPQURSTWVXYZ',
   hex: '0A16B278C3D4E5F9',
@@ -170,7 +170,7 @@ export const FoxRandomString = new Object({
   parseRegex: function(cusRegex){
     let output = '';    
     let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>([\w\!]*)?\}\((\d{1,2})\)/g)];   
-    if (o.length < 1) return "✘: Unrecognized Pattern";// there is no valid portion Fox Pattern
+    if (o.length < 1 && this.type != 'non') return "✘: Unrecognized Pattern";// there is no valid portion Fox Pattern
     for (let j=0; j < o.length; j++){
       let toCreate = o[j][1]; // the type to be created
       this.type= toCreate;      

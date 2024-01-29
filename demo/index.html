@@ -18,6 +18,7 @@
 
   <body>
     <h1>Random Strings</h1>
+    <h3 id="title"></h3>
     <div id="app"></div>
     <hr />
     <button id="genBtn">Regenerate...</button>
@@ -29,6 +30,9 @@
       <legend>Type</legend>
       <select id="type">
         <option value="[hex]8{<->L}(1)[hex]4{<->L}(3)[hex]12{<->!L}(1)">UUID Format</option>
+        <option value="[num]4{< >!}(4)">Credit Cards</option>
+        <option value="[num]3{< >!}(2)">OTP</option>
+        <option value="[uln]5{<->!U}(5)">Windows Product Keys</option>
         <option value="[hex]2{<:>!}(6)" selected>MAC Address</option>
         <option value="[int(0,255)]3{<.>!}(4)">IP4 Address</option>
         <option value="[int(0,255)]3{<.>!}(4)[non]1{<:>}(1)[int(0,65535)]4{<*>!}(1)">IP4 Address with port</option>

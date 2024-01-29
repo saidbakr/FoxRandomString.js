@@ -11,14 +11,19 @@ const genBtn = document.querySelector("#genBtn");
 genBtn.addEventListener("click", function () {
   // Getting the length desired for the string from Length field
   let l = document.querySelector("#len").value;
+  // The generated type title
+  let title = document.querySelector("#title");
+  //Getting the dropdown list
+  let dl = document.querySelector("#type");
   // Getting the string type from the dropdown list Type
-  let t = document.querySelector("#type").value;
+  let t = dl.value;
   // Loading the custom special chars
   let special_chars = document.querySelector("#spChars").value.trim();
   // Determine the choice of custom special chars is allowed or not
   let isCustomSpChars = document.querySelector("#yes").checked;
   // Sets the rand object special chars from the custom or from the original
   rand.special_chars = isCustomSpChars ? special_chars : originalSpChars;
+  title.innerHTML = dl.options[dl.selectedIndex].textContent;
   gen(l, t);
 });
 const yes = document.querySelector("#yes");
