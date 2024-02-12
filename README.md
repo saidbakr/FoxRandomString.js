@@ -31,15 +31,16 @@ Notice: The default value and the minimum of the length parameter is 4. The defa
 
 Instead of passing basic types such as `lwr` and `hex` as a type of required string, **Fox Patterns** come with handy utility to format and shape the generated string to what ever you need based on available basic types. For example:
 
-```
+```javascript
 let type = '[int(0,255)]3{<.>!}(4)[non]1{<:>}(1)[int(0,65535)]4{<*>!}(1)';
 let length = 4 // any filler integer
 let rand = Object.create('FoxRandomString');
 output = rand.generate(length,type);
-console.log(output)
+console.log(output);
 // The output is a string of a random IP4 address with a random port.
-type = '[hex]8{<->L}(1)[hex]4{<->L}(3)[hex]12{<->!L}(1)'
+type = '[hex]8{<->L}(1)[hex]4{<->L}(3)[hex]12{<->!L}(1)';
 // Fox Pattern for UUID like string
+console.log(length,type);
 ```
 In other words, Fox Patterns turns types into patterns.
 
