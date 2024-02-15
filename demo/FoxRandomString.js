@@ -1,4 +1,4 @@
-  const FoxRandomString = new Object({
+  const FoxRandomString = new Object({  
   special_chars:'+-@!%*}[/)$#(>=~^:?;',
   url_safe:'-_.~.~_-',
   numbers: '01234567890123456789',

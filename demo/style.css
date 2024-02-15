@@ -31,7 +31,7 @@ label {
   :focus {
     border: 3px solid #5551ff;
   }
-  font-family: monospace;
+  font-family: "Source Code Pro", monospace;
 }
 label span {
   font-weight: bold;
