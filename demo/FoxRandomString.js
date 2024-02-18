@@ -178,7 +178,7 @@
     let output = '';
     //let o = cusRegex.match(/\[(.*)\](\d{1,2})\{(.*)\}\((\d{1,2})\)/);
    //let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g)];
-    let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>([\w\!]*)?\}\((\d{1,2})\)/g)];
+    let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>(.*?)\}\((\d{1,2})\)/g)];
     if (o.length < 1 && this.type != 'non') return "✘: Unrecognized Pattern";
    console.log(o, '====')
    /* let regex = new RegExp(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g);
@@ -201,8 +201,7 @@
       console.log(this.type, '///')
       for (let i = 0; i < toRepeat; i++){
         let portion = String(this.generate(delivaryLength,toCreate));
-        if (formatFlags.indexOf('L') > -1) portion = portion.toLowerCase();
-        if (formatFlags.indexOf('U') > -1) portion = portion.toUpperCase();
+        portion = this.parseFlags(portion,ofLength,formatFlags);        
         output += ((ofLength != delivaryLength)? portion.substring(0,ofLength):portion)+((toSuffix[1]&&(i == toRepeat-1))?'':toSuffix[0]);      
       }      
     }
@@ -231,10 +230,24 @@
        min = extract[2];
        max = extract[1];
     }
-    return this.randomInRange(min,max);
+    console.log(min, max)
+    return this.randomInRange(min*1,max*1);
   },
   randomInRange: function(min,max){
     return Math.floor(Math.random() * (max - min + 1) + min);
+  },
+  parseFlags: function(portion,ofLength,formatFlags){
+        if (formatFlags.indexOf('L') > -1) portion = portion.toLowerCase();
+        if (formatFlags.indexOf('U') > -1) portion = portion.toUpperCase();
+        if (formatFlags.indexOf('PS') > -1){
+          const padChar = formatFlags.match(/PS(.*)PS/);
+          portion = portion.padStart(ofLength,padChar[1]);          
+        }
+        if (formatFlags.indexOf('PE') > -1){
+          const padChar = formatFlags.match(/PE(.*)PE/);
+          portion = portion.padEnd(ofLength,padChar[1]);          
+        }
+        return portion;
   }
   
   

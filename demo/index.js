@@ -1,6 +1,7 @@
 //import { FoxRandomString } from "foxrandomstring";
+let originalBg = 'rgb(228, 228, 221)';
 // The template of hex values at 6 chars length
-let colorTpl = `<span style='background:#{VAL}'><span class='highlight'>{VAL}</span></span><br />`;
+let colorTpl = `<span style='background:{VAL}' onmouseover="document.querySelector('body').style.backgroundColor=this.style.backgroundColor" onmouseout="document.querySelector('body').style.backgroundColor='rgb(228, 228, 221)'"><span class='highlight'>{VAL}</span></span><br />`;
 // Creating an object of the FoxRandomString
 let rand = Object.create(FoxRandomString);
 // Reserving the original class's special chars list
@@ -11,19 +12,14 @@ const genBtn = document.querySelector("#genBtn");
 genBtn.addEventListener("click", function () {
   // Getting the length desired for the string from Length field
   let l = document.querySelector("#len").value;
-  // The generated type title
-  let title = document.querySelector("#title");
-  //Getting the dropdown list
-  let dl = document.querySelector("#type");
   // Getting the string type from the dropdown list Type
-  let t = dl.value;
+  let t = document.querySelector("#type").value;
   // Loading the custom special chars
   let special_chars = document.querySelector("#spChars").value.trim();
   // Determine the choice of custom special chars is allowed or not
   let isCustomSpChars = document.querySelector("#yes").checked;
   // Sets the rand object special chars from the custom or from the original
   rand.special_chars = isCustomSpChars ? special_chars : originalSpChars;
-  title.innerHTML = dl.options[dl.selectedIndex].textContent;
   gen(l, t);
 });
 const yes = document.querySelector("#yes");
@@ -75,7 +71,7 @@ function gen(l, t) {
   // no color by default
   let isColor = false;
   // check if the desired type hex and the length 6 to be a color
-  if (l == 6 && t == "hex") {
+  if (l == 6 && t == "hex" || t == '[non]1{<rgba(>}(1)[int(0,255)]3{<,>}(3)[non]1{<0.>}(1)[int(0,99)]2{<)>}(1)') {
     // Yes it is a hex color format
     isColor = true;
   }
@@ -83,6 +79,7 @@ function gen(l, t) {
   for (let i = 0; i < 10; i++) {
     // Using the rand object's method generate to make the a random string with the specified length and type
     let val = rand.generate(l, t);
+    if (t == 'hex' && l == 6) val = '#'+val;
     // Concatenates the value of out.
     out += printVal(val, isColor);
   }
@@ -91,4 +88,3 @@ function gen(l, t) {
 }
 // Initially generate default random strings list with length 16 and type mix
 gen(16, "mix");
- 

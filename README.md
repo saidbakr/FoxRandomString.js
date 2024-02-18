@@ -56,6 +56,19 @@ The next portion `[hex]4{<->L}(3)` almost the same but here we said repeat the p
 * It should be written in the same order. i.e. 
   \[**Type between square brackets**\]**Integer**{\<**Separator**\>Flags}\(**Number of repeatation**\)
 
+  
+## New in version 2.1.0
+
+-Adding new flag `PSxPS` and `PExPE` where `x` any padding string. **PS** stands for padding start, while **PE** padding end. These flags introduced to provide padding to the generated string for example:
+
+```javascript
+let type = '[int(0,255)]3{<.>!}(4)'
+//it should generate random integer between 0 and 255 with length 3 characters. However, if the string is, for example, 21! 
+type = '[int(0,255)]3{<.>!PS0PS}(4)'
+// padding the string to reach 3 with 0. i.e 21 will be 021
+```
+-Fixing Type Casting issue in int generator.
+
 ### Demo of the old version [jsbin demo](https://jsbin.com/baxubaf/1/edit?html,js,output)
 
 ### [Version 2.x.x demo](https://55h27v-1234.csb.app/)

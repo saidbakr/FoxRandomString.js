@@ -169,7 +169,7 @@ export const FoxRandomString = new Object({
   },
   parseRegex: function(cusRegex){
     let output = '';    
-    let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>([\w\!]*)?\}\((\d{1,2})\)/g)];   
+    let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>(.*?)\}\((\d{1,2})\)/g)];   
     if (o.length < 1 && this.type != 'non') return "✘: Unrecognized Pattern";// there is no valid portion Fox Pattern
     for (let j=0; j < o.length; j++){
       let toCreate = o[j][1]; // the type to be created
@@ -181,8 +181,7 @@ export const FoxRandomString = new Object({
       let delivaryLength = (ofLength < 4)? 4 : ofLength;      
       for (let i = 0; i < toRepeat; i++){
         let portion = String(this.generate(delivaryLength,toCreate));
-        if (formatFlags.indexOf('L') > -1) portion = portion.toLowerCase();
-        if (formatFlags.indexOf('U') > -1) portion = portion.toUpperCase();
+        portion = this.parseFlags(portion,ofLength,formatFlags);
         output += ((ofLength != delivaryLength)? portion.substring(0,ofLength):portion)+((toSuffix[1]&&(i == toRepeat-1))?'':toSuffix[0]);      
       }      
     }
@@ -208,9 +207,22 @@ export const FoxRandomString = new Object({
        min = extract[2];
        max = extract[1];
     }
-    return this.randomInRange(min,max);
+    return this.randomInRange(min*1,max*1); //Casting to integer.
   },
   randomInRange: function(min,max){
     return Math.floor(Math.random() * (max - min + 1) + min);
-  } 
+  },
+  parseFlags: function(portion,ofLength,formatFlags){
+        if (formatFlags.indexOf('L') > -1) portion = portion.toLowerCase();
+        if (formatFlags.indexOf('U') > -1) portion = portion.toUpperCase();
+        if (formatFlags.indexOf('PS') > -1){
+          const padChar = formatFlags.match(/PS(.*)PS/);
+          portion = portion.padStart(ofLength,padChar[1]);          
+        }
+        if (formatFlags.indexOf('PE') > -1){
+          const padChar = formatFlags.match(/PE(.*)PE/);
+          portion = portion.padEnd(ofLength,padChar[1]);          
+        }
+        return portion;
+  }
 });
