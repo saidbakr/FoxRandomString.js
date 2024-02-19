@@ -55,6 +55,13 @@ The next portion `[hex]4{<->L}(3)` almost the same but here we said repeat the p
 * It should has no any white spaces between portions or between patterns inside the portion.
 * It should be written in the same order. i.e. 
   \[**Type between square brackets**\]**Integer**{\<**Separator**\>Flags}\(**Number of repeatation**\)
+  
+
+
+#### It is also available as [**NPM package**](https://www.npmjs.com/package/foxrandomstring)
+```
+npm i foxrandomstring
+```
 
   
 ## New in version 2.1.0
@@ -72,4 +79,4 @@ type = '[int(0,255)]3{<.>!PS0PS}(4)'
 ### Demo of the old version [jsbin demo](https://jsbin.com/baxubaf/1/edit?html,js,output)
 
 ### [Version 2.x.x demo](https://55h27v-1234.csb.app/)
-### Another most recent demo [on livecodes.io](https://v22.livecodes.io/?x=id/bedqytrffqm)
+### Another most recent demo [on livecodes.io](https://v22.livecodes.io/?x=id/3ithhng97w9)
