@@ -76,7 +76,16 @@ type = '[int(0,255)]3{<.>!PS0PS}(4)'
 ```
 -Fixing Type Casting issue in int generator.
 
+## New in version 2.2.0
+Adding new custom type array, in which, it could randomely select among a predefined array indices. It follows the pattern below:
+```javascript
+var varName = ['John','Doe','Ali', 'Sandra','Jim','Romio','Randa']
+let type = '[arr-varName]1{< >}(2)';
+let rand = Object.create('FoxRandomString');
+console.log(rand.generate(4,type));
+```
+
 ### Demo of the old version [jsbin demo](https://jsbin.com/baxubaf/1/edit?html,js,output)
 
 ### [Version 2.x.x demo](https://55h27v-1234.csb.app/)
-### Another most recent demo [on livecodes.io](https://v22.livecodes.io/?x=id/w56qrsmyz6b)
+### Another most recent demo [on livecodes.io](https://v22.livecodes.io/?x=id/ng52qybfmwy)

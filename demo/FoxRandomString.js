@@ -1,4 +1,5 @@
-  const FoxRandomString = new Object({  
+  const FoxRandomString = new Object({
+ 
   special_chars:'+-@!%*}[/)$#(>=~^:?;',
   url_safe:'-_.~.~_-',
   numbers: '01234567890123456789',
@@ -8,8 +9,8 @@
   mixPat: /^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[_$@.\+\W])[a-zA-Z0-9\W]{1,}$/,
   ulnPat: /^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])[a-zA-Z0-9]{1,}$/,
   type: 'mix',// mix, num, lwr, upr, uln, hex
-  length: 4,
-  
+  length: 4, 
+  arr: undefined,
   setLength: function(i){
     const val = parseInt(i);
     if (val < 4 || isNaN(val)){
@@ -20,11 +21,13 @@
     }
   },
   setType: function(t){    
-    switch(true){
-      case (t[0] == '['):        
-        return 'cus';
+    switch(true){      
+      case t == 'arr':
+        return 'arr';
       case /^int\(\d{1,},\d{1,}\)$/.test(t):          
         return 'int';
+      case (t[0] == '['):        
+        return 'cus';
       case t == 'num':
         return 'num';
       case t == 'lwr':
@@ -38,7 +41,7 @@
       case t == 'urs':
         return 'urs';
       case t == ' ':
-        return 'non';
+        return 'non';      
       default:
         return 'mix';
     }    
@@ -47,6 +50,8 @@
     switch(t){
       case 'non':
         return ' ';
+      case 'arr':
+        return this.arr;
       case 'num':
         return this.numbers;
       case 'lwr':
@@ -66,8 +71,7 @@
   genRand: function(x){
     return Math.floor(Math.random() * Math.floor(x));
   },
-  testOutput: function(type,output){
-    console.log('70')
+  testOutput: function(type,output){    
     switch (type){      
       case 'mix':
         return this.tested(this.mixPat,output);
@@ -82,8 +86,7 @@
   tested: function(pat,input){
     const re = new RegExp(pat);    
     if(!input.match(re)){      
-      return this.filledSlots(input,this.type);       
-     
+      return this.filledSlots(input,this.type);
     }
     else{      
       return input;
@@ -92,11 +95,11 @@
   filledSlots: function(input, type){
     if (type == 'mix' || type == 'uln' || type == 'urs'){
       const slots = this.getSlots(input.length, type);
-      return this.fillSlots(input,slots,type)
+      return this.fillSlots(input,slots,type);
     }
   },
   fillSlots: function(input,slots,type){
-    input = input.split('')
+    input = input.split('');
     if (type == 'mix'){
       input[slots[0]] = this.numbers[this.genRand(this.numbers.length)];
       input[slots[1]] = this.lowercase[this.genRand(this.lowercase.length)];
@@ -112,10 +115,9 @@
     if (type == 'uln'){
       input[slots[0]] = this.numbers[this.genRand(this.numbers.length)];
       input[slots[1]] = this.lowercase[this.genRand(this.lowercase.length)];
-      input[slots[2]] = this.uppercase[this.genRand(this.uppercase.length)];
-      
+      input[slots[2]] = this.uppercase[this.genRand(this.uppercase.length)];      
     }
-    input = input.join('')
+    input = input.join('');
     return input;
   },
   getSlots: function(length,type){
@@ -135,8 +137,7 @@
         slotsStr += randVal;
       }
     }
-    return output;
-    
+    return output;    
   },
   atomicFor: function(str,length){
     let randVal = this.genRand(length);
@@ -152,7 +153,7 @@
     return true;
   },
   generate: function(length,type){    
-    if (this.type == 'non'){ console.log(type, this.type,'155*'); return this.generateCustom(type);}
+    if (this.type == 'non') return this.generateCustom(type);
     let output = '';
     if (type[0] == '['){
       return this.generateCustom(type)
@@ -162,66 +163,70 @@
       return this.parseInteger(type);
     }
     this.length = this.setLength(length);
-    const selection = this.setSelection(this.type)
-    
+    const selection = this.setSelection(this.type); 
+    if (this.type == 'arr') return this.arr[this.genRand(this.arr.length)]    
     for (let i = 0; i < this.length; i++){
       output += selection[this.genRand(selection.length)];
     }
     return this.testOutput(this.type,output);
   },
   generateCustom: function(cusRegex){
-    console.log(cusRegex,'174*')
-    return this.parseRegex(cusRegex);
-    
+    return this.parseRegex(cusRegex);    
   },
   parseRegex: function(cusRegex){
-    let output = '';
-    //let o = cusRegex.match(/\[(.*)\](\d{1,2})\{(.*)\}\((\d{1,2})\)/);
-   //let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g)];
-    let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>(.*?)\}\((\d{1,2})\)/g)];
-    if (o.length < 1 && this.type != 'non') return "✘: Unrecognized Pattern";
-   console.log(o, '====')
-   /* let regex = new RegExp(/\[([^\]]+)\](\d{1,2})\{([^}]+)\}\((\d{1,2})\)/g);
-    let match = regex.exec(cusRegex)
-    console.log(match)
-    while ((match = regex.exec(cusRegex,'g')) !== null) {
-    console.log(match[1], match[2], match[3], match[4]);
-  }*/
-    //console.log(o.length,o[0][1],'<<<<-')
+    let output = '';    
+    let o = [...cusRegex.matchAll(/\[([^\]]+)\](\d{1,2})\{\<([^}]+)\>(.*?)\}\((\d{1,2})\)/g)];   
+    if (o.length < 1 && this.type != 'non') return "✘: Unrecognized Pattern";// there is no valid portion Fox Pattern
     for (let j=0; j < o.length; j++){
       let toCreate = o[j][1]; // the type to be created
-      this.type= toCreate;
-      console.log(toCreate,'****',o[j]);
+      if (toCreate.indexOf('arr-') > -1){
+        this.type = 'arr';
+        this.arr = this.isArrayType(toCreate.split('-')[1])
+      }
+      else{
+        this.type= toCreate;        
+      }
       let ofLength = Number(o[j][2]); // the length of portion      
-      let formatFlags = (o[j][4] != undefined)? o[j][4]:'';
-      console.log(formatFlags,o[j][4],o[j], '195')
+      let formatFlags = (o[j][4] != undefined)? o[j][4]:'';      
       let toSuffix = this.formatSuffix(o[j][3],formatFlags); // the suffix of the portion      
       let toRepeat = Number(o[j][5]); // times to repeat the portion
-      let delivaryLength = (ofLength < 4)? 4 : ofLength;
-      console.log(this.type, '///')
-      for (let i = 0; i < toRepeat; i++){
+      let delivaryLength = (ofLength < 4)? 4 : ofLength;      
+      for (let i = 0; i < toRepeat; i++){   
+        if (this.type == 'arr') toCreate = 'arr';
         let portion = String(this.generate(delivaryLength,toCreate));
-        portion = this.parseFlags(portion,ofLength,formatFlags);        
+        portion = this.parseFlags(portion,ofLength,formatFlags);
         output += ((ofLength != delivaryLength)? portion.substring(0,ofLength):portion)+((toSuffix[1]&&(i == toRepeat-1))?'':toSuffix[0]);      
       }      
     }
-    
-    console.log(output)
     return output;
   },
   formatSuffix: function(str, flags){
     if (flags.indexOf('!') > -1){
-      return [str,true] // Don't place the suffix in the last portion'
+      return [str,true]; // Don't place the suffix in the last portion'
     }
     else{
-      return [str,false] // Place the suffix at the last portion too
+      return [str,false]; // Place the suffix at the last portion too
     }
+  },
+  isArrayType: function(str){
+    if (this.type == 'arr'){
+      try{
+        eval("arrName = "+str+ ";");
+        return arrName;//[this.randomInRange(0,arrName.length-1)];
+      }
+      catch(e){
+        this.arr = undefined;
+        console.log('%c✘ Error: The varibale named "'+str+'" is undefined!\nFoxRandomString','color:red; font-weight: bold');
+        return '✘';
+      }
+    }
+    
+    return str;
   },
   parseInteger: function(intStr){
     let extract = intStr.match(/^int\((\d{1,}),(\d{1,})\)$/);
     let min;
-    let max;
-    console.log(extract)
+    let max;    
     if (Number(extract[1]) < Number(extract[2]) ){
        min = extract[1];
        max = extract[2];
@@ -230,8 +235,7 @@
        min = extract[2];
        max = extract[1];
     }
-    console.log(min, max)
-    return this.randomInRange(min*1,max*1);
+    return this.randomInRange(min*1,max*1); //Casting to integer.
   },
   randomInRange: function(min,max){
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -249,6 +253,4 @@
         }
         return portion;
   }
-  
-  
 });

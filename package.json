@@ -1,6 +1,6 @@
 {
   "name": "foxrandomstring",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Random string Javascript object with specified types of the output",
   "main": "./FoxRandomString.js",
   "module": "./FoxRandomString.js",

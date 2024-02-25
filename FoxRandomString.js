@@ -9,7 +9,8 @@ export const FoxRandomString = new Object({
   mixPat: /^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[_$@.\+\W])[a-zA-Z0-9\W]{1,}$/,
   ulnPat: /^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])[a-zA-Z0-9]{1,}$/,
   type: 'mix',// mix, num, lwr, upr, uln, hex
-  length: 4,  
+  length: 4, 
+  arr: undefined,
   setLength: function(i){
     const val = parseInt(i);
     if (val < 4 || isNaN(val)){
@@ -20,11 +21,13 @@ export const FoxRandomString = new Object({
     }
   },
   setType: function(t){    
-    switch(true){
-      case (t[0] == '['):        
-        return 'cus';
+    switch(true){      
+      case t == 'arr':
+        return 'arr';
       case /^int\(\d{1,},\d{1,}\)$/.test(t):          
         return 'int';
+      case (t[0] == '['):        
+        return 'cus';
       case t == 'num':
         return 'num';
       case t == 'lwr':
@@ -38,7 +41,7 @@ export const FoxRandomString = new Object({
       case t == 'urs':
         return 'urs';
       case t == ' ':
-        return 'non';
+        return 'non';      
       default:
         return 'mix';
     }    
@@ -47,6 +50,8 @@ export const FoxRandomString = new Object({
     switch(t){
       case 'non':
         return ' ';
+      case 'arr':
+        return this.arr;
       case 'num':
         return this.numbers;
       case 'lwr':
@@ -147,7 +152,7 @@ export const FoxRandomString = new Object({
     }
     return true;
   },
-  generate: function(length,type){
+  generate: function(length,type){    
     if (this.type == 'non') return this.generateCustom(type);
     let output = '';
     if (type[0] == '['){
@@ -158,7 +163,8 @@ export const FoxRandomString = new Object({
       return this.parseInteger(type);
     }
     this.length = this.setLength(length);
-    const selection = this.setSelection(this.type);    
+    const selection = this.setSelection(this.type); 
+    if (this.type == 'arr') return this.arr[this.genRand(this.arr.length)]    
     for (let i = 0; i < this.length; i++){
       output += selection[this.genRand(selection.length)];
     }
@@ -173,13 +179,20 @@ export const FoxRandomString = new Object({
     if (o.length < 1 && this.type != 'non') return "✘: Unrecognized Pattern";// there is no valid portion Fox Pattern
     for (let j=0; j < o.length; j++){
       let toCreate = o[j][1]; // the type to be created
-      this.type= toCreate;      
+      if (toCreate.indexOf('arr-') > -1){
+        this.type = 'arr';
+        this.arr = this.isArrayType(toCreate.split('-')[1])
+      }
+      else{
+        this.type= toCreate;        
+      }
       let ofLength = Number(o[j][2]); // the length of portion      
       let formatFlags = (o[j][4] != undefined)? o[j][4]:'';      
       let toSuffix = this.formatSuffix(o[j][3],formatFlags); // the suffix of the portion      
       let toRepeat = Number(o[j][5]); // times to repeat the portion
       let delivaryLength = (ofLength < 4)? 4 : ofLength;      
-      for (let i = 0; i < toRepeat; i++){
+      for (let i = 0; i < toRepeat; i++){   
+        if (this.type == 'arr') toCreate = 'arr';
         let portion = String(this.generate(delivaryLength,toCreate));
         portion = this.parseFlags(portion,ofLength,formatFlags);
         output += ((ofLength != delivaryLength)? portion.substring(0,ofLength):portion)+((toSuffix[1]&&(i == toRepeat-1))?'':toSuffix[0]);      
@@ -194,6 +207,21 @@ export const FoxRandomString = new Object({
     else{
       return [str,false]; // Place the suffix at the last portion too
     }
+  },
+  isArrayType: function(str){
+    if (this.type == 'arr'){
+      try{
+        eval("arrName = "+str+ ";");
+        return arrName;//[this.randomInRange(0,arrName.length-1)];
+      }
+      catch(e){
+        this.arr = undefined;
+        console.log('%c✘ Error: The varibale named "'+str+'" is undefined!\nFoxRandomString','color:red; font-weight: bold');
+        return '✘';
+      }
+    }
+    
+    return str;
   },
   parseInteger: function(intStr){
     let extract = intStr.match(/^int\((\d{1,}),(\d{1,})\)$/);

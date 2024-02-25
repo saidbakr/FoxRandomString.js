@@ -1,3 +1,4 @@
+var list = ['Ali','Omar','John','Winster','Coli','Romio','Sandy','Lily','Huwan','Salma', 'Marco','Mohammed','Silva','Capitano','Folio','Randa','Yavoka','Seefi','Antonio','Carmen','Olga','Yafgini','Kamel','Lion','Hassan','Suzan','Mysaa','Helmy','Fahima','Roben','Andeera','Lucy','Rose','Alpa','Baker','George','Georgia','Alberta','Sandra','Tuto'];
 //import { FoxRandomString } from "foxrandomstring";
 let originalBg = 'rgb(228, 228, 221)';
 // The template of hex values at 6 chars length
@@ -76,7 +77,7 @@ function gen(l, t) {
     isColor = true;
   }
   // Looping to generate 10 strings
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 1; i++) {
     // Using the rand object's method generate to make the a random string with the specified length and type
     let val = rand.generate(l, t);
     if (t == 'hex' && l == 6) val = '#'+val;
