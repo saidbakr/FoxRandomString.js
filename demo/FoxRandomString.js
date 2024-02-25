@@ -215,7 +215,9 @@
         return arrName;//[this.randomInRange(0,arrName.length-1)];
       }
       catch(e){
-        this.arr = undefined;
+        if (this.arr != undefined){
+          return this.arr;
+        }
         console.log('%c✘ Error: The varibale named "'+str+'" is undefined!\nFoxRandomString','color:red; font-weight: bold');
         return '✘';
       }
