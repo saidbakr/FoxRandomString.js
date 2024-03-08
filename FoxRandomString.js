@@ -208,21 +208,23 @@ export const FoxRandomString = new Object({
       return [str,false]; // Place the suffix at the last portion too
     }
   },
-  isArrayType: function(str){
+  isArrayType: function(str){    
     if (this.type == 'arr'){
+      let arrName;      
       try{
-        eval("arrName = "+str+ ";");
-        return arrName;//[this.randomInRange(0,arrName.length-1)];
-      }
-      catch(e){
-        if (this.arr != undefined){
-          return this.arr;
+        if (typeof window != undefined) {          
+          arrName = window[str];
         }
+        else{
+          arrName = global[str];
+        }        
+        return arrName;
+      }
+      catch(e){        
         console.log('%c✘ Error: The varibale named "'+str+'" is undefined!\nFoxRandomString','color:red; font-weight: bold');
         return '✘';
       }
-    }
-    
+    }    
     return str;
   },
   parseInteger: function(intStr){
