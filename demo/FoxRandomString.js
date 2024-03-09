@@ -180,7 +180,7 @@
     for (let j=0; j < o.length; j++){
       let toCreate = o[j][1]; // the type to be created
       if (toCreate.indexOf('arr-') > -1){
-        this.type = 'arr';
+        this.type = 'arr';        
         this.arr = this.isArrayType(toCreate.split('-')[1])
       }
       else{
@@ -217,14 +217,19 @@
         }
         else{
           arrName = global[str];
+        }         
+        if (typeof arrName == 'undefined'){          
+          throw new TypeError('Variable not found!');
+        }
+        else{          
+          return arrName;          
         }        
-        return arrName;
       }
-      catch(e){        
+      catch(e){         
         console.log('%c✘ Error: The varibale named "'+str+'" is undefined!\nFoxRandomString','color:red; font-weight: bold');
         return '✘';
       }
-    }    
+    }        
     return str;
   },
   parseInteger: function(intStr){

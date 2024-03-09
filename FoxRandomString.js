@@ -217,14 +217,19 @@ export const FoxRandomString = new Object({
         }
         else{
           arrName = global[str];
+        }         
+        if (typeof arrName == 'undefined'){          
+          throw new TypeError('Variable not found!');
+        }
+        else{          
+          return arrName;          
         }        
-        return arrName;
       }
-      catch(e){        
+      catch(e){         
         console.log('%c✘ Error: The varibale named "'+str+'" is undefined!\nFoxRandomString','color:red; font-weight: bold');
         return '✘';
       }
-    }    
+    }        
     return str;
   },
   parseInteger: function(intStr){
